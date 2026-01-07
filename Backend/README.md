@@ -1,109 +1,321 @@
+# 🗄️ Boteco PRO Backend – SQL Server & FastAPI
 
-## 1. Introdução
-
-Este trabalho tem como objetivo o desenvolvimento de um sistema de base de dados para pequenos comércios (bares/restaurantes). O sistema foi modelado e implementado utilizando o Microsoft SQL Server, com foco na gestão de pedidos, faturamento, estoque de produtos, vencimentos de funcionários e eventos especiais.
-
-Tecnologias utilizadas:
-- Microsoft SQL Server
-- SQL (T-SQL)
-- SQL Server Management Studio (SSMS)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?logo=fastapi)](https://fastapi.tiangolo.com)
+[![SQL Server](https://img.shields.io/badge/SQL%20Server-2019+-red?logo=microsoft-sql-server)](https://www.microsoft.com/en-us/sql-server)
+[![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python)](https://www.python.org/)
 
 ---
 
-## 2. Modelo Entidade-Relacionamento
+## 📋 Overview
 
-O modelo entidade-relacionamento foi gerado através do Microsoft SQL Server e contempla as seguintes entidades principais:
-- `Categoria`
-- `Fornecedor`
-- `Produto`
-- `Prato`
-- `Bebida`
-- `Prato_Produto`
-- `Bebida_Produto`
-- `Carreira`
-- `Nivel_Carreira`
-- `Funcionario`
-- `Funcionario_Login`
-- `Horas_Trabalhadas`
-- `Cliente`
-- `Mesa`
-- `Pedido`
-- `Pedido_Prato`
-- `Pedido_Bebida`
-- `Fatura`
-- `Evento_Especial`
-- `Menu_Especial`
-- `Menu_Especial_Prato`
+The **Boteco PRO Backend** is a two-tier system: a powerful Microsoft SQL Server database with sophisticated stored procedures and views, paired with a FastAPI REST API for client integration.
 
-Cada entidade foi devidamente normalizada até a 3ª Forma Normal.
-
-[Imagem do Modelo ER - Anexada separadamente no projeto]
+This backend handles all business logic for a small restaurant/bar operation: orders, invoicing, inventory management, employee payroll, and financial reporting.
 
 ---
 
-## 3. Esquema Relacional
-
-O esquema relacional foi criado com a utilização de `IDENTITY` para garantir o autoincremento dos identificadores. Todas as chaves primárias e estrangeiras foram definidas, garantindo a integridade referencial.
-
-As tabelas principais incluem:
-- `Produto(id_produto, nome, preco_custo, stock_atual, ...)`
-- `Pedido(id_pedido, id_cliente, id_mesa, ...)`
-- `Funcionario(id_funcionario, nome, valor_hora, ...)`
-- `Fatura(id_fatura, valor_total, valor_iva, ...)`
+> **Developed by:** Marcelo Santos – [a79433@ualg.pt](mailto:a79433@ualg.pt)  
+> **Part of:** Boteco PRO (LESTI Final Project, UAlg 2024/2025)
 
 ---
 
-## 4. Queries Criadas
+## 🏗️ Architecture Overview
 
-### Views
-- `vw_ValorGastoStocksPorPeriodo`
-- `vw_ValorGastoVencimentosPorPeriodo`
-- `vw_ValorRecebidoPorPeriodo`
-- `vw_ResumoFinanceiroPorPeriodo`
-
-### Materialized View (simulada via tabela e trigger)
-- `mv_StocksUtilizadosPorPeriodo` +
-- Trigger `trg_AtualizarMV_Stocks`
-
-### Scalar Function
-- `fn_ValorGastoVencimentos(@mes, @ano)`
-
-### Table-Valued Function
-- `fn_ValoresGastosStocks(@mes, @ano)`
-- `fn_DetalhesFatura(@id_fatura)`
-
-### Stored Procedures
-- `sp_InserirPedidoCompleto(...)`
-- `sp_MostrarValorGastoVencimentos(...)`
-- `sp_MostrarValoresGastosStocks(...)`
-- `sp_FinalizarMesaEGerarFatura(@id_mesa)`
-
-### Triggers
-- `trg_AtualizarStock_Produtos`
-- `trg_ReporEstoque`
+```
+┌─────────────────────┐
+│   Flutter App       │ (Web, Android, iOS)
+├─────────────────────┤
+│   FastAPI Gateway   │ (REST endpoints, CORS, Auth)
+├─────────────────────┤
+│   Business Logic    │ (Stored Procedures, Functions)
+├─────────────────────┤
+│   SQL Server DB     │ (Transactional Data, Views)
+└─────────────────────┘
+```
 
 ---
 
-## 5. Conclusão
+## 📦 What's Inside
 
-O sistema desenvolvido cobre todas as funcionalidades propostas no enunciado da disciplina. As funcionalidades principais incluem:
-- Criação automática de faturas
-- Controle de estoque com reposição automática
-- Cálculo de vencimentos com diferentes faixas de horas extra
-- Geração de relatórios financeiros e de uso de produtos
+### 1️⃣ Database Layer (`src/db/`)
+
+**Initialization Scripts** (`init/`) — Executed in order:
+
+| Script | Purpose | Key Objects Created |
+|:-------|:--------|:-------------------|
+| `00_Login.sql` | User & role setup | Login, database user |
+| `01_Criação_DB.sql` | Core schema | 20+ tables (3NF normalized) |
+| `02_Base_Views.sql` | Reporting views | vw_EstoqueAtual, vw_ProdutosAbaixoMinimo, etc. |
+| `03_Materialized_Views.sql` | Performance cache | mv_StocksUtilizadosPorPeriodo |
+| `04_Functions.sql` | Reusable SQL logic | fn_ValorGastoVencimentos, fn_DetalhesFatura |
+| `05_SP_Finalizar_Mesa.sql` | Invoice generation | sp_FinalizarMesaEGerarFatura |
+| `06_SP_Realizar_Pedido.sql` | Order creation | sp_InserirPedidoCompleto |
+| `07_Stored_Procedures.sql` | Reporting queries | Financial & operational reports |
+| `08_Triggers.sql` | Auto-updates | Stock adjustments, MV refresh |
+| `09_Function_Detalhes_Fatura.sql` | Invoice details | TVF for order-level breakdown |
+| `10_Seeds_1.sql` | Sample data (Part 1) | Categories, suppliers, products |
+| `11_Seeds_2.sql` | Sample data (Part 2) | Employees, menus, events |
+
+**Use Case Procedures** (`use_cases/`) — Organized by domain:
+- `Cadrastro Basico/` – Basic CRUD operations
+- `Especiais/` – Special events & custom menus
+- `Estoque/` – Inventory management
+- `Funcionários/` – Employee & payroll management
+- `Gestor/` – Management reports & analytics
+- `Pedidos/` – Order processing workflow
 
 ---
 
-## 6. Documentação Complementar
-- [Relatório TP1](docs/Relatório_TP1.md)
-- [Instruções para configuração do banco de dados](docs/INSTRUCOES_DB.md)
-- [Relatório técnico detalhado](docs/BACKEND.md)
-- [Relatório da estrutura do banco](docs/ESTUTURA_DB.md)
+### 2️⃣ API Layer (`src/api/`)
+
+**FastAPI Application Structure:**
+
+```
+api/
+├── app/
+│   ├── main.py                 # FastAPI app initialization
+│   ├── db.py                   # SQL Server connection & pooling
+│   ├── senha_hash.py           # Password hashing (bcrypt)
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   ├── estoque.py          # Inventory endpoints
+│   │   ├── faturas.py          # Invoice endpoints
+│   │   ├── funcionarios.py     # Employee endpoints
+│   │   ├── login.py            # Authentication & JWT
+│   │   ├── pedidos.py          # Order endpoints
+│   │   ├── produtos.py         # Product endpoints
+│   │   ├── prats.py            # Dishes/meals endpoints
+│   │   └── ... (more routers)
+│   └── models.py               # Pydantic data validation
+├── requirements.txt            # Python dependencies
+├── .env.example                # Environment template
+└── teste.py                    # Test utilities
+```
 
 ---
-## 7. Referências
-- Enunciado oficial da UC de Base de Dados II
-- Documentação oficial Microsoft SQL Server
-- W3Schools SQL Reference
-- Stack Overflow
 
+## 🗂️ Database Schema Highlights
+
+### Core Tables (20+ entities)
+
+**Sales & Orders:**
+- `Mesa` (Tables) → `Pedido` (Orders) → `Pedido_Prato/Pedido_Bebida` (Line items)
+- `Fatura` (Invoices) — Auto-generated by `sp_FinalizarMesaEGerarFatura`
+
+**Inventory:**
+- `Produto` (Products) with `Categoria` (Categories)
+- `Estoque` (Stock levels) with automatic updates via triggers
+- `EntradaEstoque` / `AjusteEstoque` (Stock movements)
+
+**Recipes & Production:**
+- `Receita` (Recipes) → `ReceitaIngrediente` (Formula)
+- `ProducaoCaseira` (In-house batches) → `ProducaoIngrediente` (Batch contents)
+
+**People:**
+- `Funcionario` (Employees) with `Carreira` (Career levels)
+- `Horas_Trabalhadas` (Time tracking)
+- `Cliente` (Customers/Table mappings)
+
+**Business:**
+- `Fornecedor` (Suppliers)
+- `Evento_Especial` (Special events)
+- `Menu_Especial` (Seasonal menus)
+
+### Advanced Features
+
+**Views** (10+ for reporting):
+- `vw_EstoqueAtual` – Current stock snapshot
+- `vw_ProdutosAbaixoMinimo` – Low-stock alerts
+- `vw_ValorGastoStocksPorPeriodo` – Inventory cost analysis
+- `vw_ValorRecebidoPorPeriodo` – Revenue by period
+- `vw_ResumoFinanceiroPorPeriodo` – P&L summary
+
+**Scalar Functions:**
+- `fn_ValorGastoVencimentos(@mes, @ano)` – Payroll calculation with overtime tiers
+
+**Table-Valued Functions:**
+- `fn_ValoresGastosStocks(@mes, @ano)` – Detailed stock expenses
+- `fn_DetalhesFatura(@id_fatura)` – Invoice line-item breakdown
+
+**Triggers:**
+- `trg_AtualizarStock_Produtos` – Auto-adjust stock on order creation
+- `trg_ReporEstoque` – Auto-generate replenishment alerts
+- `trg_AtualizarMV_Stocks` – Refresh materialized view
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **SQL Server 2019+** (Express, Standard, or Enterprise)
+- **SQL Server Management Studio (SSMS)** or Azure Data Studio
+- **Python 3.9+**
+- **ODBC Driver 17 for SQL Server** (for pyodbc)
+- **pip** or **pipenv** for dependency management
+
+### 1️⃣ Database Setup
+
+```bash
+# Open SQL Server Management Studio or Azure Data Studio
+# Connect to your SQL Server instance
+
+# Run scripts in order (copy & paste or use File > Open)
+# Scripts are in: Backend/src/db/init/
+```
+
+**Windows (Command Line):**
+```powershell
+# If using sqlcmd
+sqlcmd -S localhost\SQLEXPRESS -U sa -P YourPassword -i "00_Login.sql"
+sqlcmd -S localhost\SQLEXPRESS -U sa -P YourPassword -i "01_Criação_DB.sql"
+# ... continue for all 11 scripts
+```
+
+> ⚠️ **Important:** Execute scripts in numerical order. Dependencies exist between scripts.
+
+For detailed instructions, see [Database Setup Guide](docs/INSTRUCOES_DB.md)
+
+### 2️⃣ API Setup
+
+```bash
+cd Backend/src/api
+
+# Create virtual environment
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp .env.example .env
+# → Edit .env with your SQL Server connection details
+# Example .env:
+#   SQL_SERVER=localhost\SQLEXPRESS
+#   SQL_USER=boteco_user
+#   SQL_PASSWORD=YourSecurePassword
+#   SQL_DATABASE=BotecoPRO
+
+# Run the server
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+**Access the API:**
+- 📚 Swagger UI: http://localhost:8000/docs
+- 📖 ReDoc: http://localhost:8000/redoc
+- 🔗 API Root: http://localhost:8000/
+
+---
+
+## 🔐 Authentication Flow
+
+```
+1. Client sends POST /auth/login with username & password
+         ↓
+2. API queries sp_login or table Funcionario_Login
+         ↓
+3. Password hashed with bcrypt and compared
+         ↓
+4. JWT token generated (valid 24h by default)
+         ↓
+5. Client includes Authorization: Bearer <token> in headers
+         ↓
+6. API validates token on protected routes
+```
+
+---
+
+## 📊 API Endpoints Overview
+
+| Endpoint | Method | Purpose |
+|:---------|:-------|:--------|
+| `/auth/login` | POST | User authentication → JWT token |
+| `/produtos/` | GET | List all products |
+| `/produtos/{id}` | GET | Get product details |
+| `/produtos/` | POST | Create new product |
+| `/estoque/` | GET | Current inventory snapshot |
+| `/estoque/ajuste` | POST | Manual stock adjustment |
+| `/pedidos/` | POST | Create new order |
+| `/pedidos/{id}` | GET | Order details & items |
+| `/faturas/mesa/{id}` | POST | Close table & generate invoice |
+| `/funcionarios/` | GET | List employees |
+| `/receitas/` | GET | List recipes |
+| ... | ... | (40+ total endpoints) |
+
+**Full API spec:** See [Boteco_PRO_API_Completo.yaml](docs/Boteco_PRO_API_Completo.yaml)
+
+---
+
+## 💡 Key Implementation Details
+
+### Performance Optimizations
+
+- **Connection Pooling** – Reuses DB connections via `pyodbc` pool
+- **Async Endpoints** – FastAPI's async/await for non-blocking I/O
+- **Materialized Views** – Pre-computed stock data for reporting
+- **Indexes** – Strategic indexes on foreign keys, order dates, product names
+
+### Security Measures
+
+- **Password Hashing** – bcrypt with salt (cost factor 12)
+- **JWT Authentication** – Stateless token-based auth
+- **CORS Configuration** – Controlled cross-origin access
+- **SQL Injection Prevention** – Parameterized queries via pyodbc
+- **Role-Based Access** – Database-level permissions
+
+### Data Integrity
+
+- **Foreign Key Constraints** – Enforced referential integrity
+- **Triggers** – Automated data consistency (stock updates, materialized views)
+- **Transactions** – Stored procedures use transactions for multi-step operations
+- **3NF Normalization** – Minimized redundancy & anomalies
+
+---
+
+## 🧪 Testing
+
+Manual testing via Swagger UI:
+
+1. Navigate to http://localhost:8000/docs
+2. Click "Authorize" → enter test credentials
+3. Try out any endpoint in the interactive interface
+4. Responses include status codes & error details
+
+---
+
+## 📚 Additional Documentation
+
+- **[API Specification (OpenAPI/YAML)](docs/Boteco_PRO_API_Completo.yaml)** – Complete endpoint definitions
+- **[Database Structure](docs/ESTUTURA_DB.md)** – ER diagram & table descriptions
+- **[Database Setup Instructions](docs/INSTRUCOES_DB.md)** – Step-by-step DB initialization
+- **[Technical Report (PT)](docs/Relatório_TP1.md)** – Academic project report
+
+---
+
+## 🤝 Contributing
+
+Found a bug or want to improve the API? Great! Here's how:
+
+1. **Test the endpoint** thoroughly with different inputs
+2. **Check the database** for data inconsistencies
+3. **Open an issue** with reproduction steps
+4. **Submit a PR** with the fix or improvement
+
+---
+
+## 📞 Support & Questions
+
+- **API Issues?** Check the endpoint documentation in Swagger UI
+- **Database Questions?** Review the schema in [ESTUTURA_DB.md](docs/ESTUTURA_DB.md)
+- **Setup Help?** See [INSTRUCOES_DB.md](docs/INSTRUCOES_DB.md)
+- **Feature Request?** Open a GitHub issue
+
+---
+
+**Engineered with precision by Marcelo Santos**
+
+> *"A well-structured database is the backbone of smooth operations."* – **Boteco PRO Backend**

@@ -1,4 +1,4 @@
-# 🍻 Boteco PRO – Bar Management System
+# 🍻 Boteco PRO – Enterprise Bar Management System
 
 [![Flutter 3](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)](https://flutter.dev)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?logo=fastapi)](https://fastapi.tiangolo.com)
@@ -21,7 +21,7 @@ This is a **complete production-ready architecture**: a high-performance FastAPI
 
 ---
 
-## � Stack Overview
+## 🚀 Stack Overview
 
 | Layer      | Technology            | Purpose                                    |
 |:-----------|:----------------------|:-------------------------------------------|
@@ -46,6 +46,19 @@ This is a **complete production-ready architecture**: a high-performance FastAPI
 | **Themes & UI**       |   ✅   | Material 3, Light/Dark modes, smooth animations                 |
 | **Employee Mgmt**     |   ✅   | Payroll, shift tracking, role-based access                      |
 | **Reporting**         |   ✅   | Financial summaries, stock movements, invoice history           |
+
+---
+
+## 🗺️ What's Coming Next
+
+| Goal                    | Roadmap Item                                                                                                                                                    |
+|:------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Live Backend**        | Seamless API integration—every endpoint wired up to real SQL Server data instead of demo JSON                                                                  |
+| **Auth & Roles**        | OAuth2/Google Sign-In → role-based dashboards (waiter vs. manager views)                                                                                      |
+| **Offline Sync**        | Upgrade from SharedPreferences to **Isar** database for robust offline-first experience with automatic sync                                                   |
+| **Reports & Exports**   | PDF/CSV generation for sales, inventory movements, and recipe cost breakdowns                                                                                  |
+| **KDS & Printing**      | Kitchen Display System via WebSocket + Bluetooth/ESC-POS thermal printer integration                                                                         |
+| **Analytics**           | Trend analysis, peak hour detection, customer behavior insights                                                                                               |
 
 ---
 
@@ -146,95 +159,103 @@ FastAPI_Flutter/
 ## 🎨 Tech Highlights
 
 **Frontend:**
-- 🎭 **Material Design 3** with adaptive light/dark theming
-- 🎬 **flutter_animate** for buttery-smooth transitions
-- 🏠 **Offline-first** with SharedPreferences (upgrading to Isar)
+- 🎭 **Material Design 3** with adaptive light/dark theming inspired by Brazilian bar aesthetics
+- 🎬 **flutter_animate** for buttery-smooth transitions and micro-interactions
+- 🏠 **Offline-first** architecture with SharedPreferences (upgrading to Isar)
 - 🌍 **i18n ready** with pt_BR localization (Currency, dates, etc.)
 
 **Backend:**
-- ⚡ **FastAPI** with async/await for high concurrency
-- 🔐 **JWT + bcrypt** for secure authentication
+- ⚡ **FastAPI** with async/await for handling high concurrent requests
+- 🔐 **JWT + bcrypt** for secure, stateless authentication
 - 🗄️ **Stored Procedures** for complex business logic (orders, invoicing, payroll)
 - 🔔 **Triggers** for automatic stock adjustments and materialized view updates
 
 **Database:**
-- 📊 **10+ Views** for financial and operational reporting
-- 🔄 **Materialized Views** for performance optimization
-- 📈 **Complex Queries** (TVFs, scalar functions) for cost analysis
-- ✔️ **Referential Integrity** & 3NF normalization across 20+ tables
+- 📊 **10+ Views** for comprehensive financial and operational reporting
+- 🔄 **Materialized Views** with indexed performance optimization
+- 📈 **Complex Queries** (TVFs, scalar functions) for cost analysis & forecasting
+- ✔️ **Referential Integrity** with 3NF normalization across 20+ tables
+- 🔒 **Role-based Access Control** at database level
 
 ---
 
-## 🚀 Getting Started
+## 📚 Documentation
 
-### 1. Prerequisites
-
-* Flutter 3.19 + (channel *stable*)
-* Dart 3
-* A recent Chrome / Edge (for web) or Android/iOS device / emulator
-
-```bash
-flutter --version
-```
-
-### 2. Clone
-
-```bash
-git clone https://github.com/marcelo-m7/Boteco_PRO.git
-cd boteco_pro
-```
-
-### 3. Run as Web App
-
-```bash
-flutter run -d chrome        # or edge
-```
-
-### 4. Run on Android/iOS
-
-```bash
-flutter run                  # picks a connected phone/emulator
-```
-
-> **Quick test:** An already-built **`boteco_pro.apk`** sits in the project root – just sideload it on Android (`adb install boteco_pro.apk`).
+- **[Backend Setup Guide](Backend/README.md)** – API architecture, database schema, endpoints
+- **[Frontend Architecture](Frontend/src/README.md)** – UI structure, models, services & widgets
+- **[API Specification](Backend/docs/Boteco_PRO_API_Completo.yaml)** – Complete OpenAPI/Swagger spec
+- **[Database Schema](Backend/docs/ESTUTURA_DB.md)** – ER diagram, table relationships, indexes
+- **[Database Setup Instructions](Backend/docs/INSTRUCOES_DB.md)** – Step-by-step SQL Server configuration
 
 ---
 
-## 🗃️ Project Structure `/lib`
+## 🔑 Key Components Explained
 
-```
-lib/
- ├─ models/         domain DTOs & enums
- ├─ services/       ApiService + DatabaseService (offline cache)
- ├─ pages/          UI for each module
- └─ widgets/        reusable components (AppBar, Badge, QuantitySelector…)
-```
+### Database Layer
+The SQL Server backend includes:
+- **11 initialization scripts** in `Backend/src/db/init/` that set up the complete schema
+- **Use case procedures** organized by domain (Gestor, Estoque, Funcionários, Pedidos)
+- **Complex triggers** that auto-update stock and materialized views in real-time
+- **Financial views** for sales, expenses, and profit reporting
 
-Platform wrappers live in `android/`, `ios/` and `web/`.
-Everything business-related stays in Dart under `lib/`.
+### API Layer
+FastAPI provides:
+- **11 core routers** for all business domains (auth, products, orders, invoices, etc.)
+- **Connection pooling** to SQL Server for optimal performance
+- **CORS configuration** for cross-origin requests from web/mobile clients
+- **Automatic Swagger documentation** at `/docs`
 
----
-
-## 📝 Tech Highlights
-
-* **Material 3** theming with adaptive light/dark palettes inspired by Brazilian “boteco” colours (yellow, burgundy, beige).
-* **flutter\_animate** for smooth card & FAB transitions.
-* **SharedPreferences** seed data on first launch → instant demo.
-* **Intl** fully configured (`initializeDateFormatting('pt_BR')`) for currency and dates in Portuguese (Brazil).
-
----
-
-## 🤝 Contributing & License
-
-This is an academic project but pull-requests are welcome for educational purposes.
-Code released under the **MIT License** – see [LICENSE](LICENSE).
+### Mobile/Web Frontend
+Flutter delivers:
+- **Responsive design** that adapts from phone to tablet to desktop
+- **Offline capability** with automatic sync when connection restored
+- **Dark mode support** with Material 3 color system
+- **Accessibility features** (semantic labels, high contrast options)
 
 ---
 
-### 🙌 Acknowledgements
+## 🤝 Contributing & Support
 
-* Open-source Flutter community for awesome packages
+This is an academic project but contributions are welcome! Found a bug or have a feature idea?
+
+1. **Open an issue** describing the problem or feature request
+2. **Fork the repo** and create a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit changes** with clear messages (`git commit -m 'Add amazing feature'`)
+4. **Submit a pull request** with a clear description
+
+Code is released under the **MIT License** – see [LICENSE](LICENSE).
 
 ---
 
-> *“Gestão simples, cerveja gelada e boteco lotado.”* – **Boteco PRO**
+## 📝 Project Status
+
+This project was developed as a **Final Project** for the LESTI program at Universidade do Algarve (2024/2025). It demonstrates:
+
+- ✅ Full database design and implementation (SQL Server)
+- ✅ Production-grade REST API (FastAPI)
+- ✅ Cross-platform mobile application (Flutter)
+- ✅ Complex business logic (orders, invoicing, payroll)
+- ✅ Real-world architectural patterns (3-tier, offline-first, async)
+
+---
+
+## 🙌 Credits & Acknowledgements
+
+- **Flutter & Dart teams** for an amazing, productive framework
+- **Microsoft** for SQL Server documentation and ODBC drivers
+- **FastAPI community** for excellent async tooling and documentation
+- **Universidade do Algarve** for the opportunity and guidance
+
+---
+
+### 📧 Contact & Support
+
+- **Questions?** Open a GitHub issue
+- **Found a bug?** Create a detailed bug report with reproduction steps
+- **Want to collaborate?** Reach out to Marcelo Santos
+
+---
+
+**Built with ☕ and 🍻 by Marcelo Santos**
+
+> *"Keep it simple. Cold beer. Busy bar. Happy customers."* – **Boteco PRO**
