@@ -231,5 +231,5 @@ Concluindo, a solução implementada resolve o problema proposto de forma comple
 ## 9. Referências
 
 * **Código SQL do Projeto Boteco\_PRO:** Ficheiros `.sql` na pasta *backend/src/db* contendo a implementação do esquema e componentes discutidos (nomeadamente: *01\_Criação\_DB.sql*, *02\_Base\_Views.sql*, *03\_Materialized\_Views.sql*, *04\_Functions.sql*, *05\_SP\_Finalizar\_Mesa.sql*, *06\_SP\_Realizar\_Pedido.sql*, *07\_Stored\_Procedures.sql*, *08\_Triggers.sql*, *09\_Function\_Detalhes\_Fatura.sql*, entre outros).
-* **Enunciado do Trabalho Prático BDII:** *Trabalho Prático da UC de Base de Dados II* – Universidade (2025). Documento fornecido pela docente com a descrição do cenário do restaurante e requisitos (queries, views, functions, triggers a desenvolver).
+* **Project Requirements:** Bar management system with complete database implementation including queries, views, functions, and triggers for orders, invoicing, inventory, and employee management.
 * **Documentação Microsoft SQL Server:** *Transact-SQL Reference*. Inclui detalhes sobre criação de bases de dados e objetos: CREATE TABLE, CREATE VIEW, CREATE PROCEDURE, CREATE FUNCTION, CREATE TRIGGER, etc. Disponível em: Microsoft Docs (consultado para confirmar sintaxes e comportamentos).

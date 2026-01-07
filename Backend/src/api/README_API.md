@@ -14,8 +14,7 @@ The API handles all business logic: orders, invoicing, inventory management, emp
 
 ---
 
-> **Built by:** Marcelo Santos – [a79433@ualg.pt](mailto:a79433@ualg.pt)  
-> **Part of:** Boteco PRO (LESTI Final Project, UAlg 2024/2025)
+> **Built by:** Marcelo Santos
 
 ---
 

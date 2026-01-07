@@ -15,9 +15,7 @@ This is a **complete production-ready architecture**: a high-performance FastAPI
 
 ---
 
-> **Built by:** Marcelo Santos – [a79433@ualg.pt](mailto:a79433@ualg.pt)  
-> **Academic Track:** *LESTI* – Universidade do Algarve  
-> **Semester:** 2024/2025 (Final Project)
+> **Built by:** Marcelo Santos
 
 ---
 
@@ -216,7 +214,7 @@ Flutter delivers:
 
 ## 🤝 Contributing & Support
 
-This is an academic project but contributions are welcome! Found a bug or have a feature idea?
+Contributions are welcome! Found a bug or have a feature idea?
 
 1. **Open an issue** describing the problem or feature request
 2. **Fork the repo** and create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -229,7 +227,7 @@ Code is released under the **MIT License** – see [LICENSE](LICENSE).
 
 ## 📝 Project Status
 
-This project was developed as a **Final Project** for the LESTI program at Universidade do Algarve (2024/2025). It demonstrates:
+This is a production-grade full-stack system that demonstrates:
 
 - ✅ Full database design and implementation (SQL Server)
 - ✅ Production-grade REST API (FastAPI)
@@ -244,7 +242,6 @@ This project was developed as a **Final Project** for the LESTI program at Unive
 - **Flutter & Dart teams** for an amazing, productive framework
 - **Microsoft** for SQL Server documentation and ODBC drivers
 - **FastAPI community** for excellent async tooling and documentation
-- **Universidade do Algarve** for the opportunity and guidance
 
 ---
 

@@ -14,8 +14,7 @@ The app is designed with hospitality workflows in mind: fast access to critical 
 
 ---
 
-> **Built by:** Marcelo Santos – [a79433@ualg.pt](mailto:a79433@ualg.pt)  
-> **Part of:** Boteco PRO (LESTI Final Project, UAlg 2024/2025)
+> **Built by:** Marcelo Santos
 
 ---
 

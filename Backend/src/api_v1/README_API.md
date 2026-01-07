@@ -64,4 +64,4 @@ app/
 
 ## 👨‍💻 Autor
 
-Marcelo (UAlg · Computação Móvel 2024–2025)
+Marcelo

@@ -14,8 +14,7 @@ This backend handles all business logic for a small restaurant/bar operation: or
 
 ---
 
-> **Developed by:** Marcelo Santos – [a79433@ualg.pt](mailto:a79433@ualg.pt)  
-> **Part of:** Boteco PRO (LESTI Final Project, UAlg 2024/2025)
+> **Developed by:** Marcelo Santos
 
 ---
 
@@ -292,7 +291,7 @@ Manual testing via Swagger UI:
 - **[API Specification (OpenAPI/YAML)](docs/Boteco_PRO_API_Completo.yaml)** – Complete endpoint definitions
 - **[Database Structure](docs/ESTUTURA_DB.md)** – ER diagram & table descriptions
 - **[Database Setup Instructions](docs/INSTRUCOES_DB.md)** – Step-by-step DB initialization
-- **[Technical Report (PT)](docs/Relatório_TP1.md)** – Academic project report
+- **[Technical Report (PT)](docs/Relatório_TP1.md)** – Complete technical documentation
 
 ---
 
